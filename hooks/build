@@ -14,7 +14,7 @@ ls -l
 
 # Build synthea distribution tar file
 cd ./synthea
-./synthea/build_synthea.sh
+./build_synthea.sh
 
 # Containerize it
 cd ..
