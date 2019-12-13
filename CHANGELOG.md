@@ -1,4 +1,4 @@
-## 1.2.2 (December 13, 2019)
+## 1.2.3 (December 13, 2019)
   - Documentation and improvements for auto build
 
 ## 1.0.0 (December 13, 2019)
