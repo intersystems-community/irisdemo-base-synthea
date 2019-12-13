@@ -10,10 +10,14 @@ echo "   DOCKERFILE_PATH: $DOCKERFILE_PATH"
 echo "   DOCKER_TAG     : $DOCKER_TAG"
 echo "   DOCKER_TAG     : $IMAGE_NAME"
 
+ls -l
+
 # Build synthea distribution tar file
+cd ./synthea
 ./synthea/build_synthea.sh
 
 # Containerize it
+cd ..
 docker build -t ${DOCKER_REPO}:${DOCKER_TAG} .
 
 
