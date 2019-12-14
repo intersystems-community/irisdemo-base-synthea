@@ -16,7 +16,7 @@ docker run --rm -u gradle -v "$PWD/synthea":/home/gradle/project -w /home/gradle
 rm -rf ./dist
 mkdir ./dist
 cp ./synthea/build/distributions/synthea.tar ./dist
-chmod -R ./dist
+chmod -R 777 ./dist
 ls -l ./dist
 
 rm -rf ./synthea
