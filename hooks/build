@@ -15,9 +15,7 @@ echo "   DOCKER_TAG     : $IMAGE_NAME"
 ls -l
 
 # Build synthea distribution tar file
-cd ./synthea
-ls -l
-./build_synthea.sh
+./synthea/build_synthea.sh
 
 # Containerize it
 cd ..
