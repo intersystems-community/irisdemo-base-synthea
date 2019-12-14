@@ -9,7 +9,7 @@ rm -rf ./synthea
 
 git clone --depth 1 https://github.com/synthetichealth/synthea.git
 
-docker run --rm -u gradle -v "$PWD/synthea":/home/gradle/project -w /home/gradle/project gradle:6.0.1-jdk8 gradle assemble
+docker run --rm -u gradle -v "$PWD/synthea":/home/gradle/project -w /home/gradle/project gradle:6.0.1-jdk8 gradle assemble -s
 
 rm -rf ./dist
 mkdir ./dist
