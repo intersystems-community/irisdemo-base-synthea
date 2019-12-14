@@ -4,7 +4,7 @@ VOLUME /output
 
 LABEL maintainer="Phillip Booth <phillip.booth@intersystems.com>"
 
-ADD ./synthea/dist/synthea.tar /
+ADD ./synthea_dist/synthea.tar /
 
 ENV APP_HOME=/synthea
 

@@ -13,11 +13,13 @@ mkdir ./synthea/.gradle
 chmod -R 777 ./synthea
 docker run --rm -u gradle -v "$PWD/synthea":/home/gradle/project -w /home/gradle/project gradle:6.0.1-jdk8 gradle assemble
 
-rm -rf ./dist
-mkdir ./dist
-cp ./synthea/build/distributions/synthea.tar ./dist
-chmod -R 777 ./dist
-ls -l ./dist
+rm -rf ./synthea_dist
+mkdir ./synthea_dist
+cp ./synthea/build/distributions/synthea.tar ./synthea_dist
+chmod -R 777 ./synthea_dist
+
+ls -l
+ls -l ./synthea_dist
 
 rm -rf ./synthea
 
