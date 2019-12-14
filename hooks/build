@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo
 echo "### HOOK - build environment:"
 echo "   SOURCE_BRANCH  : $SOURCE_BRANCH"
@@ -14,6 +16,7 @@ ls -l
 
 # Build synthea distribution tar file
 cd ./synthea
+ls -l
 ./build_synthea.sh
 
 # Containerize it
