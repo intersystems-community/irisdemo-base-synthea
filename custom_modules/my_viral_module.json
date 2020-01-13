@@ -1,0 +1,421 @@
+{
+  "name": "My Viral Module",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "distributed_transition": [
+        {
+          "transition": "Initial Delay",
+          "distribution": 0.8
+        },
+        {
+          "transition": "Terminal",
+          "distribution": 0.20000000000000007
+        }
+      ]
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Death": {
+      "type": "Death",
+      "direct_transition": "Terminal"
+    },
+    "Initial Delay": {
+      "type": "Delay",
+      "range": {
+        "low": 18,
+        "high": 99,
+        "unit": "years"
+      },
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "Socioeconomic Status",
+            "category": "High"
+          },
+          "distributions": [
+            {
+              "transition": "Viral Condition Start (Low Risk)",
+              "distribution": 0.8
+            },
+            {
+              "transition": "Viral_Condition_Start_(High Risk)",
+              "distribution": 0.19999999999999996
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Viral Condition Start (Low Risk)",
+              "distribution": 0.5
+            },
+            {
+              "transition": "Viral_Condition_Start_(High Risk)",
+              "distribution": 0.5
+            }
+          ],
+          "condition": {
+            "condition_type": "Socioeconomic Status",
+            "category": "Middle"
+          }
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Viral Condition Start (Low Risk)",
+              "distribution": 0.3
+            },
+            {
+              "transition": "Viral_Condition_Start_(High Risk)",
+              "distribution": 0.7
+            }
+          ]
+        }
+      ]
+    },
+    "Send to Nursing Facility": {
+      "type": "EncounterEnd",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 3,
+        "display": "NUBC Code"
+      },
+      "distributed_transition": [
+        {
+          "transition": "Viral Condition End",
+          "distribution": 0.91
+        },
+        {
+          "transition": "Death",
+          "distribution": 0.01
+        },
+        {
+          "transition": "Delay (Low Risk)",
+          "distribution": 0.08
+        }
+      ]
+    },
+    "Viral Condition End": {
+      "type": "ConditionEnd",
+      "direct_transition": "Terminal",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 34014006,
+          "display": "Viral Infection"
+        }
+      ]
+    },
+    "Inpatient_Visit (High Risk)": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "Inpatient Visit"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Dismiss_to_Home (High Risk)",
+          "distribution": 0.95
+        },
+        {
+          "transition": "Send to Nursing Facility",
+          "distribution": 0.050000000000000044
+        }
+      ]
+    },
+    "Inpatient Visit (Low Risk)": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "Inpatient Visit"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Dismiss to Home (Low Risk)",
+          "distribution": 0.98
+        },
+        {
+          "transition": "Send to Nursing Facility",
+          "distribution": 0.020000000000000018
+        }
+      ]
+    },
+    "Dismiss_to_Home (High Risk)": {
+      "type": "EncounterEnd",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      },
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "Socioeconomic Status",
+            "category": "Low"
+          },
+          "distributions": [
+            {
+              "distribution": 0.8,
+              "transition": "Delay (High Risk)"
+            },
+            {
+              "distribution": 0.01,
+              "transition": "Death"
+            },
+            {
+              "distribution": 0.18999999999999995,
+              "transition": "Viral Condition End"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "Date",
+            "operator": ">",
+            "month": 10
+          },
+          "distributions": [
+            {
+              "distribution": 0.7,
+              "transition": "Delay (High Risk)"
+            },
+            {
+              "distribution": 0.29000000000000004,
+              "transition": "Viral Condition End"
+            },
+            {
+              "distribution": 0.01,
+              "transition": "Death"
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Delay (High Risk)",
+              "distribution": 0.6
+            },
+            {
+              "transition": "Death",
+              "distribution": 0.01
+            },
+            {
+              "transition": "Viral Condition End",
+              "distribution": 0.39
+            }
+          ]
+        }
+      ]
+    },
+    "Dismiss to Home (Low Risk)": {
+      "type": "EncounterEnd",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      },
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "Socioeconomic Status",
+            "category": "Low"
+          },
+          "distributions": [
+            {
+              "distribution": 0.5,
+              "transition": "Delay (Low Risk)"
+            },
+            {
+              "distribution": 0.01,
+              "transition": "Death"
+            },
+            {
+              "distribution": 0.49,
+              "transition": "Viral Condition End"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "condition_type": "Date",
+            "operator": ">",
+            "month": 10
+          },
+          "distributions": [
+            {
+              "distribution": 0.3,
+              "transition": "Delay (Low Risk)"
+            },
+            {
+              "distribution": 0.69,
+              "transition": "Viral Condition End"
+            },
+            {
+              "distribution": 0.01,
+              "transition": "Death"
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Delay (Low Risk)",
+              "distribution": 0.15
+            },
+            {
+              "transition": "Death",
+              "distribution": 0.01
+            },
+            {
+              "transition": "Viral Condition End",
+              "distribution": 0.84
+            }
+          ]
+        }
+      ]
+    },
+    "Follow_Up (High Risk)": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "Inpatient Follow-Up"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Dismiss_to_Home (High Risk)",
+          "distribution": 0.9
+        },
+        {
+          "transition": "Send to Nursing Facility",
+          "distribution": 0.10000000000000009
+        }
+      ]
+    },
+    "Follow-Up (Low Risk)": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "Inpatient Follow-Up"
+        }
+      ],
+      "complex_transition": [
+        {
+          "condition": {
+            "condition_type": "Socioeconomic Status",
+            "category": "Low"
+          },
+          "distributions": [
+            {
+              "transition": "Dismiss to Home (Low Risk)",
+              "distribution": 0.98
+            },
+            {
+              "transition": "Send to Nursing Facility",
+              "distribution": 0.020000000000000018
+            }
+          ]
+        },
+        {
+          "distributions": [
+            {
+              "transition": "Dismiss to Home (Low Risk)",
+              "distribution": 0.9
+            },
+            {
+              "transition": "Send to Nursing Facility",
+              "distribution": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    "Viral Condition Start (Low Risk)": {
+      "type": "ConditionOnset",
+      "target_encounter": "Inpatient Visit (Low Risk)",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 34014006,
+          "display": "Viral Infection"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Inpatient Visit (Low Risk)",
+          "distribution": 0.75
+        },
+        {
+          "transition": "Viral Condition End",
+          "distribution": 0.22999999999999998
+        },
+        {
+          "transition": "Death",
+          "distribution": 0.02
+        }
+      ]
+    },
+    "Viral_Condition_Start_(High Risk)": {
+      "type": "ConditionOnset",
+      "target_encounter": "Inpatient_Visit (High Risk)",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 34014006,
+          "display": "Viral Infection"
+        }
+      ],
+      "distributed_transition": [
+        {
+          "transition": "Inpatient_Visit (High Risk)",
+          "distribution": 0.97
+        },
+        {
+          "transition": "Death",
+          "distribution": 0.030000000000000027
+        }
+      ]
+    },
+    "Delay (High Risk)": {
+      "type": "Delay",
+      "direct_transition": "Follow_Up (High Risk)",
+      "range": {
+        "low": 6,
+        "high": 10,
+        "unit": "days"
+      }
+    },
+    "Delay (Low Risk)": {
+      "type": "Delay",
+      "direct_transition": "Follow-Up (Low Risk)",
+      "range": {
+        "low": 6,
+        "high": 10,
+        "unit": "days"
+      }
+    }
+  }
+}

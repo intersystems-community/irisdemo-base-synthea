@@ -1,0 +1,166 @@
+{
+  "name": "My Third Viral Model",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "No Viral Load"
+    },
+    "No Viral Load": {
+      "type": "Delay",
+      "exact": {
+        "quantity": 2,
+        "unit": "months"
+      },
+      "distributed_transition": [
+        {
+          "transition": "Viral Onset",
+          "distribution": 0.005
+        },
+        {
+          "transition": "No Viral Load",
+          "distribution": 0.995
+        }
+      ]
+    },
+    "Viral Onset": {
+      "type": "ConditionOnset",
+      "assign_to_attribute": "",
+      "target_encounter": "Initial Inpatient Visit With Diagnosis",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 276660001,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Undiagnosed"
+    },
+    "Send Patient Home": {
+      "type": "EncounterEnd",
+      "distributed_transition": [
+        {
+          "transition": "Delay While Sick",
+          "distribution": 0.75
+        },
+        {
+          "transition": "Virus Flare-Up Over",
+          "distribution": 0.2500000000000001
+        }
+      ],
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      }
+    },
+    "Follow-Up Inpatient Visit": {
+      "type": "Encounter",
+      "encounter_class": "ambulatory",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Patient Home Again"
+    },
+    "Delay While Sick": {
+      "type": "Delay",
+      "range": {
+        "low": 5,
+        "high": 10,
+        "unit": "days"
+      },
+      "direct_transition": "Follow-Up Inpatient Visit"
+    },
+    "Patient Home Again": {
+      "type": "EncounterEnd",
+      "distributed_transition": [
+        {
+          "transition": "Delay While Sick",
+          "distribution": 0.19999999999999996
+        },
+        {
+          "transition": "Virus Flare-Up Over",
+          "distribution": 0.8
+        }
+      ],
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      }
+    },
+    "Virus Flare-Up Over": {
+      "type": "ConditionEnd",
+      "direct_transition": "No Viral Load",
+      "condition_onset": "Viral Onset",
+      "referenced_by_attribute": "text",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 276660001,
+          "display": "SNOMED Code"
+        }
+      ]
+    },
+    "Undiagnosed": {
+      "type": "Delay",
+      "range": {
+        "low": 2,
+        "high": 8,
+        "unit": "days"
+      },
+      "distributed_transition": [
+        {
+          "transition": "Initial Inpatient Visit With Diagnosis",
+          "distribution": 0.8
+        },
+        {
+          "transition": "Failed Inpatient Visit",
+          "distribution": 0.19999999999999996
+        }
+      ]
+    },
+    "Failed Inpatient Visit": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "New_State"
+    },
+    "New_State": {
+      "type": "EncounterEnd",
+      "direct_transition": "Undiagnosed",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      }
+    },
+    "Initial Inpatient Visit With Diagnosis": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Send Patient Home"
+    }
+  }
+}

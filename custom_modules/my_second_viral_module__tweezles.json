@@ -1,0 +1,95 @@
+{
+  "name": "My Second Viral Module: Tweezles",
+  "remarks": [
+    "A blank module"
+  ],
+  "states": {
+    "Initial": {
+      "type": "Initial",
+      "direct_transition": "Delay"
+    },
+    "Delay": {
+      "type": "Delay",
+      "exact": {
+        "quantity": 1,
+        "unit": "months"
+      },
+      "distributed_transition": [
+        {
+          "transition": "Delay",
+          "distribution": 0.9970000000000001
+        },
+        {
+          "transition": "Onset",
+          "distribution": 0.003
+        }
+      ]
+    },
+    "Onset": {
+      "type": "ConditionOnset",
+      "assign_to_attribute": "",
+      "target_encounter": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 409631000,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Inpatient Visit"
+    },
+    "Recovery": {
+      "type": "ConditionEnd",
+      "direct_transition": "Delay",
+      "condition_onset": "Onset",
+      "referenced_by_attribute": "text",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 409631000,
+          "display": "SNOMED Code"
+        }
+      ]
+    },
+    "Inpatient Visit": {
+      "type": "Encounter",
+      "encounter_class": "inpatient",
+      "reason": "",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 185345009,
+          "display": "SNOMED Code"
+        }
+      ],
+      "direct_transition": "Send Home"
+    },
+    "Send Home": {
+      "type": "EncounterEnd",
+      "discharge_disposition": {
+        "system": "NUBC",
+        "code": 1,
+        "display": "NUBC Code"
+      },
+      "distributed_transition": [
+        {
+          "transition": "Delay while ill",
+          "distribution": 0.1
+        },
+        {
+          "transition": "Recovery",
+          "distribution": 0.9
+        }
+      ]
+    },
+    "Delay while ill": {
+      "type": "Delay",
+      "direct_transition": "Inpatient Visit",
+      "range": {
+        "low": 2,
+        "high": 10,
+        "unit": "days"
+      }
+    }
+  }
+}

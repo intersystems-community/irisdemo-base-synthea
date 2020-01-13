@@ -4,4 +4,4 @@
 ./build_synthea.sh
 
 # Containerize it
-docker build -t intersystemsdc/irisdemo-base-synthea:latest .
+docker build -t intersystemsdc/irisdemo-base-synthea:readmission-demo .
