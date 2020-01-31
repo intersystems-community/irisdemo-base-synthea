@@ -1,6 +1,7 @@
 .gradle
 synthea
 synthea_dist
+patient-data.tar.gz
 *.tar
 output/*/*
 !output/patients_will_appear_here
