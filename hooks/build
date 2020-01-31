@@ -19,7 +19,7 @@ echo "   DOCKER_TAG     : $IMAGE_NAME"
 docker build -t ${DOCKER_REPO}:readmission-demo .
 
 # Run synthea to generate 5000 patients with seed 1577991349289 for the readmission demo
-docker run --rm -v $PWD/output:/output --name synthea-docker ${DOCKER_REPO}:readmission-demo . -p 5 -s 1577991349289
+docker run --rm -v $PWD/output:/output --name synthea-docker ${DOCKER_REPO}:readmission-demo -p 5 -s 1577991349289
 
 # Compress generated patients into a tar to be added to an empty image
 tar -czvf ./image-5000patients/patient-data.tar.gz ./output
