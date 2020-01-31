@@ -18,5 +18,9 @@ echo "   DOCKER_TAG     : $IMAGE_NAME"
 # Containerize it
 docker build -t ${DOCKER_REPO}:${DOCKER_TAG} .
 
+# Run it to generate 5000 patients with seed 1577991349289 for the readmission demo
+docker run --rm -v $PWD/output:/output --name synthea-docker ${DOCKER_REPO}:${DOCKER_TAG} . -p 5 -s 1577991349289
+tar -czvf ./image-5000patients/patient-data.tar.gz ./output
+rm -rf output
 
-
+docker build -t ${DOCKER_REPO}:${DOCKER_TAG}-5000 ./image-5000patients
