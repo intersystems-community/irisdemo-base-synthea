@@ -2,4 +2,4 @@
 
 docker push ${DOCKER_REPO}:${DOCKER_TAG}
 
-docker push ${DOCKER_REPO}:${DOCKER_TAG}-5000
+docker push ${DOCKER_REPO}:readmission-demo-5000

@@ -15,12 +15,15 @@ echo "   DOCKER_TAG     : $IMAGE_NAME"
 # Build synthea distribution tar file
 ./build_synthea.sh
 
-# Containerize it
-docker build -t ${DOCKER_REPO}:${DOCKER_TAG} .
+# Containerize synthea
+docker build -t ${DOCKER_REPO}:readmission-demo .
 
-# Run it to generate 5000 patients with seed 1577991349289 for the readmission demo
-docker run --rm -v $PWD/output:/output --name synthea-docker ${DOCKER_REPO}:${DOCKER_TAG} . -p 5 -s 1577991349289
+# Run synthea to generate 5000 patients with seed 1577991349289 for the readmission demo
+docker run --rm -v $PWD/output:/output --name synthea-docker ${DOCKER_REPO}:readmission-demo . -p 5 -s 1577991349289
+
+# Compress generated patients into a tar to be added to an empty image
 tar -czvf ./image-5000patients/patient-data.tar.gz ./output
 rm -rf output
 
-docker build -t ${DOCKER_REPO}:${DOCKER_TAG}-5000 ./image-5000patients
+# Creating an empty image that will ADD patient-data.tar.gz to it
+docker build -t ${DOCKER_REPO}:readmission-demo-5000 ./image-5000patients
